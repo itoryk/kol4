@@ -10,7 +10,7 @@ def application(environ, start_response):
     file_names = {
         "/styles.css": "styles.css",
         "/logo.jpeg/": "123.jpg",
-        "/": "payload.html",
+        "/": "payload.html"
     }
     file_name = file_names.get(url)
 
@@ -41,7 +41,7 @@ def read_static(file_name: str) -> bytes:
 
 def generate_404(environ) -> bytes:
     url = environ["PATH_INFO"]
-    pin = random.randint(1,1000)
+    pin = random.randint(1, 1000)
     msg = f"Hello world! Your path: {url} not found. Pin: {pin}"
 
     return msg.encode()
