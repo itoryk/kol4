@@ -1,4 +1,5 @@
-import mimetypes
+import random
+from mimetypes import guess_type
 
 from framework.consts import DIR_STATIC
 
@@ -8,14 +9,24 @@ def application(environ, start_response):
 
     file_names = {
         "/styles.css": "styles.css",
-        "/logo.jpeg": "123.jpg",
+        "/logo.jpeg/": "123.jpg",
+        "/": "payload.html",
     }
-    status = "200 OK"
-    file_name = file_names.get(url, "payload.html")
-    headers = {
-        "Content-type": mimetypes.guess_type(file_name)[0],
-    }
-    payload = read_static(file_name)
+    file_name = file_names.get(url)
+
+    if file_name is not None:
+        status = "200 OK"
+        headers = {
+            "Content-type": guess_type(file_name)[0],
+        }
+        payload = read_static(file_name)
+    else:
+        status = "404 Not Found"
+        headers = {
+            "Content_type": "text/plain",
+        }
+        payload = generate_404(environ)
+
     start_response(status, list(headers.items()))
 
     yield payload
@@ -26,3 +37,11 @@ def read_static(file_name: str) -> bytes:
     with path.open("rb") as fp:
         payload = fp.read()
     return payload
+
+
+def generate_404(environ) -> bytes:
+    url = environ["PATH_INFO"]
+    pin = random.randint(1, 1000)
+    msg = f"Hello world! Your path: {url} not found. Pin: {pin}"
+
+    return msg.encode()
