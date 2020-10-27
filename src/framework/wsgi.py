@@ -10,7 +10,7 @@ def application(environ, start_response):
     file_names = {
         "/styles.css": "styles.css",
         "/logo.jpeg/": "123.jpg",
-        "/": "payload.html"
+        "/": "payload.html",
     }
     file_name = file_names.get(url)
 
