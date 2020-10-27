@@ -6,27 +6,13 @@ from framework.consts import DIR_STATIC
 
 def application(environ, start_response):
     url = environ["PATH_INFO"]
-
-    file_names = {
-        "/styles.css": "styles.css",
-        "/logo.jpeg/": "123.jpg",
-        "/": "payload.html",
+    handlers = {"/": handler_index}
+    handler = handlers.get(url, handler_404)
+    status = "200 OK"
+    headers = {
+        "Content-type": "text/html",
     }
-    file_name = file_names.get(url)
-
-    if file_name is not None:
-        status = "200 OK"
-        headers = {
-            "Content-type": guess_type(file_name)[0],
-        }
-        payload = read_static(file_name)
-    else:
-        status = "404 Not Found"
-        headers = {
-            "Content_type": "text/plain",
-        }
-        payload = generate_404(environ)
-
+    payload = handler(environ)
     start_response(status, list(headers.items()))
 
     yield payload
@@ -39,7 +25,14 @@ def read_static(file_name: str) -> bytes:
     return payload
 
 
-def generate_404(environ) -> bytes:
+def handler_index(_environ) -> bytes:
+    handler_html = read_static("handler.html").decode()
+    payload_html = read_static("payload.html").decode()
+    text = handler_html.format(xxx=payload_html)
+    return text.encode()
+
+
+def handler_404(environ) -> bytes:
     url = environ["PATH_INFO"]
     pin = random.randint(1, 1000)
     msg = f"Hello world! Your path: {url} not found. Pin: {pin}"
