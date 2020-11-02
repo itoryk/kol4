@@ -10,14 +10,9 @@ handlers = {"/": handle_index,
 def application(environ, start_response):
 
     url = environ["PATH_INFO"]
-
-    handler = handlers.get(url, system_handlers.handle_404)
-
     status, headers, payload = handler(environ)
-
     start_response(status, list(headers.items()))
 
     yield payload
 
-
-
+ 
