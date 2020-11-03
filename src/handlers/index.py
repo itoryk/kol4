@@ -2,6 +2,7 @@ from framework.types import RequestT
 from framework.types import ResponseT
 from framework.utils import read_static
 
+
 def handle_index(_request: RequestT) -> ResponseT:
     base_html = read_static("_base.html", str)
     index_html = read_static("payload.html", str)
@@ -19,4 +20,3 @@ def handle_index(_request: RequestT) -> ResponseT:
         payload=result,
         status=status,
     )
-
