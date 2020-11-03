@@ -6,7 +6,6 @@ from handlers import system_handlers
 
 handlers = {"/": handle_index, "/styles.css": handle_styles, "/logo.jpeg": handle_logo}
 
-
 def application(environ: dict, start_response):
 
     url = environ["PATH_INFO"]

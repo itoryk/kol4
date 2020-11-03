@@ -7,7 +7,6 @@ from framework.utils import format_env_var
 from framework.utils import http_first
 from framework.utils import read_static
 
-
 def handle_404(request: RequestT) -> ResponseT:
     url = request.path
     pin = random.randint(1, 999999)
@@ -21,6 +20,7 @@ def handle_404(request: RequestT) -> ResponseT:
             request.headers.items(), key=http_first
         )
     )
+
     base_html = read_static("_base.html", str)
 
     html_404 = f"""
@@ -41,3 +41,4 @@ def handle_404(request: RequestT) -> ResponseT:
     headers = {"Content-type": "text/html"}
 
     return ResponseT(status, headers, payload)
+
