@@ -3,7 +3,7 @@ from framework.types import ResponseT
 from framework.utils import read_static
 
 
-def handle_index(_environ) -> ResponseT:
+def handle_index(_request: RequestT) -> ResponseT:
     base_html = read_static("_base.html", str)
     index_html = read_static("payload.html", str)
 
@@ -15,4 +15,8 @@ def handle_index(_environ) -> ResponseT:
         "Content-type": "text/html",
     }
 
-    return status, headers, result
+    return ResponseT(
+        headers=headers,
+        payload=result,
+        status=status,
+    )
