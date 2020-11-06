@@ -5,9 +5,9 @@ from framework.utils import get_request_headers
 from handlers import get_handler_and_kwargs
 from handlers import special
 
-
+ 
 def application(environ: dict, start_response):
-    url = environ["PATH_INFO"]
+url = environ["PATH_INFO"]
     method = environ["REQUEST_METHOD"]
     handler, kwargs = get_handler_and_kwargs(url)
     request_headers = get_request_headers(environ)
@@ -27,7 +27,7 @@ def application(environ: dict, start_response):
         response = special.handle_404(request)
     except Exception:
         response = special.handle_500(request)
-
+ 
     start_response(response.status, list(response.headers.items()))
 
     yield response.payload
