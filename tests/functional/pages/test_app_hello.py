@@ -12,7 +12,7 @@ url = "http://localhost:8000/h/"
 def test(browser, request):
     page = HelloPage(browser, url)
 
-    assert page.greeting.text == "Hello anon"
+    assert page.greeting.text == "Hello bro"
     assert page.address.text == "You are at nowhere"
 
     page.name_input.clear()
