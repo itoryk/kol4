@@ -22,7 +22,7 @@ def test(browser, request):
     validate_redirect(page, url)
     assert page.greeting.text == "Hello broz"
     assert page.address.text == "You are at nowhere"
-    assert page.name_input.get_attribute("value") == "bro"
+    assert page.name_input.get_attribute("value") == "broz"
 
     page.name_input.clear()
     page.address_input.clear()
