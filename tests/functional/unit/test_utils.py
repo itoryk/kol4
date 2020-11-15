@@ -91,7 +91,7 @@ def test_build_status():
     assert status == "404 NotFound"
 
     status = utils.build_status(500)
-    assert status == "500 Internal Server Error"
+    assert status == "500 InternalServerError"
 
 
 @pytest.mark.unit
