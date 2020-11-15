@@ -17,10 +17,10 @@ def test(browser, request):
 
     page.name_input.clear()
     page.address_input.clear()
-    page.name_input.send_keys("bro")
+    page.name_input.send_keys("broz")
     page.submit_button.click()
     validate_redirect(page, url)
-    assert page.greeting.text == "Hello bro"
+    assert page.greeting.text == "Hello broz"
     assert page.address.text == "You are at nowhere"
     assert page.name_input.get_attribute("value") == "bro"
 
@@ -29,7 +29,7 @@ def test(browser, request):
     page.address_input.send_keys("localhost")
     page.submit_button.click()
     validate_redirect(page, url)
-    assert page.greeting.text == "Hello anon"
+    assert page.greeting.text == "Hello bro"
     assert page.address.text == "You are at localhost"
     assert page.address_input.get_attribute("value") == "localhost"
 
