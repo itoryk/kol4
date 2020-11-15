@@ -8,9 +8,8 @@ def handle_index(_request: RequestT) -> ResponseT:
     base = read_static("_base.html")
     base_html = base.content.decode()
     index_html = read_static("payload.html").content.decode()
- 
 
-    result = base_html.format(xxx=index_html)
+    result = base_html.format(body=index_html)
     result = result.encode()
 
     status = build_status(200)

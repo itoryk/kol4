@@ -7,6 +7,7 @@ from framework.types import HandlerT
 from . import special
 from .error import handle_error
 from .hello import handle_hello
+from .hello import handle_hello_delete
 from .index import handle_index
 
 urlpatterns: Dict[re.compile, HandlerT] = {
@@ -15,6 +16,7 @@ urlpatterns: Dict[re.compile, HandlerT] = {
         "^/$": handle_index,
         "^/e/$": handle_error,
         "^/h/$": handle_hello,
+        "^/hd/$": handle_hello_delete,
         "^/s/(?P<file_name>.+)$": special.handle_static,
     }.items()
 }
@@ -31,4 +33,3 @@ def get_handler_and_kwargs(path: str) -> Tuple[HandlerT, dict]:
             break
 
     return handler, kwargs
- 

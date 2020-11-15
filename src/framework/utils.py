@@ -2,13 +2,20 @@ import http
 import mimetypes
 import re
 from html import escape
+from http.cookies import SimpleCookie
 from pathlib import Path
 from typing import Any
 from typing import Callable
+from typing import Dict
+from typing import Optional
 from typing import Tuple
 from urllib.parse import parse_qs
 
+from framework import settings
 from framework.consts import DIR_STATIC
+from framework.consts import METHODS_WITH_REQUEST_BODY
+from framework.consts import USER_COOKIE
+from framework.consts import USER_TTL
 from framework.errors import NotFound
 from framework.types import StaticT
 
@@ -60,7 +67,7 @@ def get_request_headers(environ: dict) -> dict:
     return request_headers
 
 
-def get_query(environ: dict) -> dict:
+def get_request_query(environ: dict) -> dict:
     qs = environ.get("QUERY_STRING")
     query = parse_qs(qs or "")
     return query
@@ -68,7 +75,94 @@ def get_query(environ: dict) -> dict:
 
 def build_status(code: int) -> str:
     status = http.HTTPStatus(code)
-    reason = "".join(word.capitalize() for word in status.name.split("_"))
 
+    def _process_word(_word: str) -> str:
+        if _word == "OK":
+            return _word
+        return _word.capitalize()
+
+    reason = "".join(_process_word(word) for word in status.name.split("_"))
     text = f"{code} {reason}"
     return text
+
+
+def build_form_data(body: bytes) -> Dict[str, Any]:
+
+    if not body:
+        return {}
+
+    qs = body.decode()
+    form_data = parse_qs(qs or "")
+    return form_data
+
+
+def get_request_body(environ: dict) -> Optional[bytes]:
+    method = get_request_method(environ)
+    if method not in METHODS_WITH_REQUEST_BODY:
+        return None
+
+    fp = environ.get("wsgi.input")
+    if not fp:
+        return None
+
+    content_length = int(environ.get("CONTENT_LENGTH") or 0)
+    if not content_length:
+        return None
+
+    content = fp.read(content_length)
+
+    return content
+
+
+def get_request_method(environ: dict) -> str:
+    method = environ.get("REQUEST_METHOD", "GET")
+
+    return method
+
+
+def get_request_path(environ: dict) -> str:
+    path = environ.get("PATH_INFO", "/")
+    return path
+
+
+def get_user_id(headers: Dict) -> Optional[str]:
+    cookies_header = headers.get("COOKIE", "")
+    cookies = SimpleCookie(cookies_header)
+
+    if USER_COOKIE not in cookies:
+        return None
+
+    user_id = cookies[USER_COOKIE].value
+
+    return user_id
+
+
+def host_is_local(host: str) -> bool:
+    local_names = {
+        "localhost",
+        "127.0.0.1",
+    }
+
+    is_local = any(local_name in host for local_name in local_names)
+    return is_local
+
+
+def build_absolute_url(resource: str, **kwargs: dict) -> str:
+    port = settings.PORT
+    if port in (80, 443):
+        port = ""
+    else:
+        port = f":{port}"
+
+    host = settings.HOST
+
+    schema = "http" if host_is_local(host) else "https"
+
+    if resource.startswith("/"):
+        resource = resource[1:]
+
+    url = f"{schema}://{host}{port}/{resource}"
+    if kwargs:
+        url = url.format(**kwargs)
+
+    return url
