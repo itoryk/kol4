@@ -88,7 +88,7 @@ def test_build_status():
     assert status == "400 BadRequest"
 
     status = utils.build_status(404)
-    assert status == "404 Not Found"
+    assert status == "404 NotFound"
 
     status = utils.build_status(500)
     assert status == "500 Internal Server Error"

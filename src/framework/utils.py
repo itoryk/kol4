@@ -46,7 +46,7 @@ def get_formatter(env_var_name: str) -> Callable[[str], str]:
 
 def read_static(file_name: str) -> StaticT:
     if file_name.startswith("/"):
-        file_obj = path(file_name).resolve()
+        file_obj = Path(file_name).resolve()
     else:
         file_obj = (DIR_STATIC / file_name).resolve()
 
