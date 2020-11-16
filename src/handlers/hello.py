@@ -12,8 +12,8 @@ from framework.utils import read_static
 
 def handle_hello(request: RequestT) -> ResponseT:
     handlers = {
-        "greet": handle_hello_greet,
-        "reset": handle_hello_reset,
+        "greet": _handle_hello_greet,
+        "reset": _handle_hello_reset,
     }
 
     handler = handlers.get(request.kwargs.get("action"), _handle_hello_index)
@@ -54,8 +54,8 @@ def _handle_hello_index(request: RequestT) -> ResponseT:
     return response
 
 
-def handle_hello_greet(request: RequestT) -> ResponseT:
-    if request.method == "POST":
+def _handle_hello_greet(request: RequestT) -> ResponseT:
+    if request.method != "POST":
         raise MethodNotAllowed
 
     name = request.form_data.get("name", [None])[0]
@@ -68,7 +68,7 @@ def handle_hello_greet(request: RequestT) -> ResponseT:
 
     status = build_status(302)
 
-    cookies = build_session_header(request.user.id)
+    cookie = build_session_header(request.user.id)
 
     headers = {
         "Location": "/h/",
@@ -79,9 +79,10 @@ def handle_hello_greet(request: RequestT) -> ResponseT:
         headers=headers,
         status=status,
     )
+    return response
 
 
-def handle_hello_reset(request: RequestT) -> ResponseT:
+def _handle_hello_reset(request: RequestT) -> ResponseT:
     if request.method != "POST":
         raise MethodNotAllowed
 

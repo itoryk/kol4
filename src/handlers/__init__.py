@@ -15,7 +15,6 @@ urlpatterns: Dict[re.compile, HandlerT] = {
         "^/$": handle_index,
         "^/e/$": handle_error,
         "^/h/((?P<action>.+)/)?$": handle_hello,
-        "^/hd/$": handle_hello,
         "^/s/(?P<file_name>.+)$": special.handle_static,
     }.items()
 }
