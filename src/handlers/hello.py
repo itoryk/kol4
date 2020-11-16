@@ -12,8 +12,8 @@ from framework.utils import read_static
 
 def handle_hello(request: RequestT) -> ResponseT:
     handlers = {
-        "greet": _handle_hello_greet,
-        "reset": _handle_hello_reset,
+        "greet": handle_hello_greet,
+        "reset": handle_hello_reset,
     }
 
     handler = handlers.get(request.kwargs.get("action"), _handle_hello_index)
