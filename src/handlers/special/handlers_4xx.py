@@ -39,7 +39,7 @@ def handle_404(request: RequestT) -> ResponseT:
     document = base_html.format(body=html_404)
 
     payload = document.encode()
-    status = status = build_status(404)
+    status = build_status(404)
     headers = {"Content-type": "text/html"}
 
     return ResponseT(status, headers, payload)
