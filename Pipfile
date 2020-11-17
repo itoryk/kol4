@@ -13,12 +13,13 @@ pytest = "*"
 pytest-mock = "*"
 pytest-selenium = "*"
 colorama = "*"
-
 delorean = "*"
+
 [packages]
 dynaconf = { extras = ["yaml"], version = "*" }
 gunicorn = "*"
 psycopg2-binary = "*"
+django = "*"
 
 [requires]
 python_version = "3.8"
