@@ -3,10 +3,10 @@ from html import escape
 
 from framework.types import RequestT
 from framework.types import ResponseT
-from framework.utils import build_status
-from framework.utils import format_env_var
-from framework.utils import http_first
-from framework.utils import read_static
+from framework.util import build_status
+from framework.util import format_env_var
+from framework.util import http_first
+from framework.util import read_static
 
 
 def handle_404(request: RequestT) -> ResponseT:

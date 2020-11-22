@@ -48,6 +48,7 @@ def format_env_var(name: str, value: str) -> str:
     :param value: value of environment variable
     :return: string representation of value in appropriate format
     """
+
     formatter = get_formatter(name)
     new = str(value)
     new = formatter(new)
@@ -69,6 +70,7 @@ def get_formatter(env_var_name: str) -> Callable[[str], str]:
 
     if "ACCEPT" in env_var_name:
         return lambda _v: "\n".join(re.split(r"[\s,]+", _v))
+
     return lambda _v: _v
 
 
@@ -129,6 +131,7 @@ def build_status(code: int) -> str:
     :param code: integer HTTP code
     :return: string with code and reason
     """
+
     status = http.HTTPStatus(code)
 
     def _process_word(_word: str) -> str:
@@ -136,7 +139,8 @@ def build_status(code: int) -> str:
             return _word
         return _word.capitalize()
 
-    reason = "".join(_process_word(word) for word in status.name.split("_"))
+    reason = " ".join(_process_word(word) for word in status.name.split("_"))
+
     text = f"{code} {reason}"
     return text
 
@@ -164,6 +168,7 @@ def get_request_body(environ: dict) -> Optional[bytes]:
     :param environ: WSGI environment
     :return: bytes of HTTP request body or None
     """
+
     method = get_request_method(environ)
     if method not in METHODS_WITH_REQUEST_BODY:
         return None
@@ -187,8 +192,8 @@ def get_request_method(environ: dict) -> str:
     :param environ: WSGI environment
     :return: HTTP method name
     """
-    method = environ.get("REQUEST_METHOD", "GET")
 
+    method = environ["REQUEST_METHOD"]
     return method
 
 
@@ -199,7 +204,7 @@ def get_request_path(environ: dict) -> str:
     :return: request path
     """
 
-    path = environ.get("PATH_INFO", "/")
+    path = environ["PATH_INFO"]
     return path
 
 

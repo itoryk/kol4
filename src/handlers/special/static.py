@@ -1,7 +1,7 @@
 from framework.types import RequestT
 from framework.types import ResponseT
-from framework.utils import build_status
-from framework.utils import read_static
+from framework.util import build_status
+from framework.util import read_static
 
 
 def handle_static(request: RequestT) -> ResponseT:

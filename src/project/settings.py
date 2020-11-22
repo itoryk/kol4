@@ -2,7 +2,9 @@ from pathlib import Path
 
 from dynaconf import settings as _ds
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+DIR_SRC = Path(__file__).resolve().parent.parent
+
+DIR_PROJECT = DIR_SRC / "project"
 
 
 SECRET_KEY = _ds.SECRET_KEY
@@ -41,7 +43,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [DIR_PROJECT / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -60,7 +62,7 @@ WSGI_APPLICATION = "project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DIR_SRC / "db.sqlite3",
     }
 }
 

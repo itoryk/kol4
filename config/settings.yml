@@ -15,8 +15,8 @@ default:
   HOST: ""
   MODE_PROFILING: false
   PORT: -1
-  SECRET_KEY: " "
-  PROJECT_NAME: "kol4"
+  SECRET_KEY: ""
+  PROJECT_NAME: ""
   TEMPLATE_ENGINE: "Django"
   VENV_SYNTHETIC: false
   WEB_CONCURRENCY: 0
