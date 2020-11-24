@@ -6,6 +6,8 @@ DIR_SRC = Path(__file__).resolve().parent.parent
 
 DIR_PROJECT = DIR_SRC / "project"
 
+DIR_REPO = DIR_SRC.parent.resolve()
+
 
 SECRET_KEY = _ds.SECRET_KEY
 
@@ -26,6 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # ----------------------------
+    "applications.landing.apps.LandingConfig",
 ]
 
 MIDDLEWARE = [
@@ -94,4 +98,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = "/static/"
+STATIC_URL = "/s/"
+STATIC_ROOT = DIR_REPO / ".static"
+
+STATICFILES_DIRS = [
+    DIR_PROJECT / "static",
+]
+
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
