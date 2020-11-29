@@ -4,6 +4,6 @@ from django.shortcuts import render
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    result = render(request, "landing/payload.html")
+    result = render(request, "landing/index.html")
 
     return HttpResponse(result)

@@ -1,18 +1,23 @@
 from pathlib import Path
 
+import sentry_sdk
 from dynaconf import settings as _ds
 
-DIR_SRC = Path(__file__).resolve().parent.parent
+DEBUG = _ds.MODE_DEBUG
 
-DIR_PROJECT = DIR_SRC / "project"
+if not DEBUG:
+    sentry_sdk.init(_ds.SENTRY_DSN, traces_sample_rate=1.0)
+_this_file = Path(__file__).resolve()
+
+DIR_PROJECT = _this_file.parent.resolve()
+
+DIR_SRC = DIR_PROJECT.parent.resolve()
 
 DIR_REPO = DIR_SRC.parent.resolve()
 
 
 SECRET_KEY = _ds.SECRET_KEY
 
-
-DEBUG = _ds.MODE_DEBUG
 
 ALLOWED_HOSTS = [
     "Localhost",
@@ -29,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # ----------------------------
+    "applications.hello.apps.HelloConfig",
     "applications.landing.apps.LandingConfig",
 ]
 

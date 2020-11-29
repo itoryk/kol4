@@ -1,7 +1,5 @@
 {% load static %}
-
-<q></q><!DOCTYPE html>
-
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -11,15 +9,15 @@
 </head>
 <body>
  <header>
-  <div class="flat">
+    <div class="flat">
     <a href="/"><img alt="Logo" height="100rem" src="{% static 'images/favico.jpg' %}"></a>
     <a href="/"><h1>Z37 study project</h1></a>
-  </div>
-  <nav>
+    </div>
+    <nav>
       <p><a href="/"><span>/</span></a></p>
       <p><a href="/e/"><span>/e/</span></a></p>
       <p><a href="/h/"><span>/h/</span></a></p>
-  </nav>
+    </nav>
  </header>
  <main>
    {% block main %}{% endblock %}

@@ -21,6 +21,7 @@ gunicorn = "*"
 psycopg2-binary = "*"
 django = "*"
 whitenoise = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.8"
