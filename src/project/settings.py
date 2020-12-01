@@ -1,12 +1,12 @@
 from pathlib import Path
 
 import sentry_sdk
-from dynaconf import settings as _ds
+from dynaconf import settings as dyn
 
-DEBUG = _ds.MODE_DEBUG
+DEBUG = dyn.MODE_DEBUG
 
 if not DEBUG:
-    sentry_sdk.init(_ds.SENTRY_DSN, traces_sample_rate=1.0)
+    sentry_sdk.init(dyn.SENTRY_DSN, traces_sample_rate=1.0)
 _this_file = Path(__file__).resolve()
 
 DIR_PROJECT = _this_file.parent.resolve()
@@ -16,13 +16,13 @@ DIR_SRC = DIR_PROJECT.parent.resolve()
 DIR_REPO = DIR_SRC.parent.resolve()
 
 
-SECRET_KEY = _ds.SECRET_KEY
+SECRET_KEY = dyn.SECRET_KEY
 
 
 ALLOWED_HOSTS = [
     "Localhost",
     "127.0.0.1",
-    _ds.HOST,
+    dyn.HOST,
 ]
 
 

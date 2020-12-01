@@ -14,6 +14,7 @@ pytest-mock = "*"
 pytest-selenium = "*"
 colorama = "*"
 delorean = "*"
+dj-database-url = "*"
 
 [packages]
 dynaconf = { extras = ["yaml"], version = "*" }

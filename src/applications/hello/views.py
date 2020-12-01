@@ -11,7 +11,7 @@ def view_hello_index(request: HttpRequest) -> HttpResponse:
     context = {
         "address_header": address or "nowhere",
         "address_value": address or "",
-        "name_header": name or "anonymous",
+        "name_header": name or "bro",
         "name_value": name or "",
     }
     response = render(request, "hello/index.html", context=context)
