@@ -104,4 +104,4 @@ migrations:
 .PHONY: migrate
 migrate:
 	$(call log, applying migrations)
-    $(PYTHON) src/manage.py makemigrations
+	$(PYTHON) src/manage.py makemigrations
