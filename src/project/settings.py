@@ -7,6 +7,7 @@ DEBUG = dyn.MODE_DEBUG
 
 if not DEBUG:
     sentry_sdk.init(dyn.SENTRY_DSN, traces_sample_rate=1.0)
+
 _this_file = Path(__file__).resolve()
 
 DIR_PROJECT = _this_file.parent.resolve()
