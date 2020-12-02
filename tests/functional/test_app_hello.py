@@ -18,7 +18,7 @@ url = "http://localhost:8000/h/"
 def test(browser, request):
     page = HelloPage(browser, url)
 
-    assert page.greeting.text == "Hello bro"
+    assert page.greeting.text == "Hello  {name_header}"
     assert page.address.text == "You are in nowhere"
 
     page.name_input.clear()
@@ -26,7 +26,7 @@ def test(browser, request):
     page.name_input.send_keys("bro")
     page.submit_button.click()
     validate_redirect(page, url)
-    assert page.greeting.text == "Hello bro"
+    assert page.greeting.text == "Hello  {name_header}"
     assert page.address.text == "You are in nowhere"
     assert page.name_input.get_attribute("value") == "bro"
 
@@ -35,7 +35,7 @@ def test(browser, request):
     page.address_input.send_keys("localhost")
     page.submit_button.click()
     validate_redirect(page, url)
-    assert page.greeting.text == "Hello anonymous"
+    assert page.greeting.text == "Hello  {name_header}"
     assert page.address.text == "You are in localhost"
     assert page.address_input.get_attribute("value") == "localhost"
 
@@ -45,10 +45,11 @@ def test(browser, request):
     page.address_input.send_keys("localhost")
     page.submit_button.click()
     validate_redirect(page, url)
-    assert page.greeting.text == "Hello Alex"
+    assert page.greeting.text == "Hello {name_header}"
     assert page.address.text == "You are in localhost"
-    assert page.name_input.get_attribute("value") == "Alex"
+    assert page.name_input.get_attribute("value") == "bro"
     assert page.address_input.get_attribute("value") == "localhost"
+
 
 def screenshot_on_failure(test):
     @wraps(test)
