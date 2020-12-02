@@ -26,7 +26,7 @@ def test(browser, request):
     page.name_input.send_keys("bro")
     page.submit_button.click()
     validate_redirect(page, url)
-    assert page.greeting.text == "Hello  {name_header}"
+    assert page.greeting.text == "Hello {name_header}"
     assert page.address.text == "You are in nowhere"
     assert page.name_input.get_attribute("value") == "bro"
 
