@@ -22,7 +22,7 @@ default:
   PORT: -1
   SECRET_KEY: ""
   SENTRY_DSN: ""
-  PROJECT_NAME: ""
+  PROJECT_NAME: "kol4"
   TEMPLATE_ENGINE: "Django"
   VENV_SYNTHETIC: false
   WEB_CONCURRENCY: 0
