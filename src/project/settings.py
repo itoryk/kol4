@@ -1,5 +1,7 @@
+import os
 from pathlib import Path
 
+import dj_database_url
 import sentry_sdk
 from dynaconf import settings as dyn
 
@@ -16,16 +18,13 @@ DIR_SRC = DIR_PROJECT.parent.resolve()
 
 DIR_REPO = DIR_SRC.parent.resolve()
 
-
 SECRET_KEY = dyn.SECRET_KEY
 
-
 ALLOWED_HOSTS = [
-    "Localhost",
+    "localhost",
     "127.0.0.1",
     dyn.HOST,
 ]
-
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -34,14 +33,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # ----------------------------
-    "applications.blog.apps.BlogConfig",
+    # ---------------------------
     "applications.hello.apps.HelloConfig",
     "applications.landing.apps.LandingConfig",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -70,14 +69,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
+DATABASE_URL = os.getenv("DATABASE_URL", dyn.DATABASE_URL)
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": DIR_SRC / "db.sqlite3",
-    }
-}
-
+DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -94,7 +88,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -105,8 +98,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 STATIC_URL = "/s/"
+
 STATIC_ROOT = DIR_REPO / ".static"
 
 STATICFILES_DIRS = [

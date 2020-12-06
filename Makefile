@@ -1,4 +1,4 @@
- include ./Makefile.in.mk
+include ./Makefile.in.mk
 
 
 .PHONY: format
@@ -17,9 +17,9 @@ test:
 
 
 .PHONY: run
-run:
+run: static
 	$(call log, starting local web server)
-	$(PYTHON) -m app
+	$(PYTHON) src/manage.py runserver
 
 
 .PHONY: run-prod
@@ -58,42 +58,31 @@ db: resetdb
 
 
 .PHONY: data
-data: static
+data: static migrate
 	$(call log, preparing data)
 
 
 .PHONY: static
 static:
 	$(call log, collecting static)
+	$(PYTHON) src/manage.py collectstatic --noinput
 
 
 .PHONY: resetdb
-resetdb:  dropdb createdb migrations migrate
+resetdb: dropdb createdb migrations migrate
 	$(call log, resetting db to initial state)
 
 
 .PHONY: dropdb
 dropdb:
 	$(call log, dropping database)
-	psql \
-		--echo-all \
-		--username=$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_user.py) \
-		--no-password \
-		--host=localhost \
-		--dbname=postgres \
-		--command="DROP DATABASE IF EXISTS \"$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_name.py)\";"
+	psql  --echo-all  --username=$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_user.py)  --no-password --host=localhost --dbname=postgres --command="DROP DATABASE IF EXISTS \"$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_name.py)\";"
 
 
 .PHONY: createdb
 createdb:
 	$(call log, creating database)
-	psql \
-		--echo-all \
-		--username=$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_user.py) \
-		--no-password \
-		--host=localhost \
-		--dbname=postgres \
-		--command="CREATE DATABASE \"$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_name.py)\";"
+	psql --echo-all --username=$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_user.py) --no-password --host=localhost  --dbname=postgres --command="CREATE DATABASE \"$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_name.py)\";"
 
 
 .PHONY: migrations
@@ -105,4 +94,4 @@ migrations:
 .PHONY: migrate
 migrate:
 	$(call log, applying migrations)
-	$(PYTHON) src/manage.py makemigrations
+	$(PYTHON) src/manage.py migrate
