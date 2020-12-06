@@ -7,11 +7,14 @@ def _now():
 
 
 class Post(models.Model):
-    title = models.TextField(null=True, blank=True, unique=True)
+
     content = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(default=True)
+
     nr_likes = models.IntegerField(default=0)
 
+    nr_views = models.IntegerField(default=0)
+    created_at = models.DateTimeField(default=_now)
+    edited = models.BooleanField(default=False)
 
-class Meta:
-    ordering = ["-created_at"]
+    class Meta:
+        ordering = ["-created_at"]
