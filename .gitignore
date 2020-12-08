@@ -5,7 +5,7 @@
 .DS_Store
 .idea/
 .pytest_cache/
-.secrets.*
+config/.secrets.yml
 .static/
 .tests_artifacts/
 .venv
