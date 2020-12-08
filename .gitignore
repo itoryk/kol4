@@ -1,10 +1,12 @@
 *.bak
 *.py[cod]
+*.swp
 *~
 .DS_Store
 .idea/
 .pytest_cache/
-.secrets.*
+config/.secrets.yml
+.static/
 .tests_artifacts/
 .venv
 __pycache__/
@@ -13,3 +15,6 @@ db/*.json
 tests/**/*.html
 tests/**/*.png
 venv/
+
+# Ignore dynaconf secret files
+.secrets.*

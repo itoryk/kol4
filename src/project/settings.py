@@ -1,21 +1,30 @@
+import os
 from pathlib import Path
 
-from dynaconf import settings as _ds
+import dj_database_url
+import sentry_sdk
+from dynaconf import settings as dyn
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+DEBUG = dyn.MODE_DEBUG
 
+if not DEBUG:
+    sentry_sdk.init(dyn.SENTRY_DSN, traces_sample_rate=1.0)
 
-SECRET_KEY = _ds.SECRET_KEY
+_this_file = Path(__file__).resolve()
 
+DIR_PROJECT = _this_file.parent.resolve()
 
-DEBUG = _ds.MODE_DEBUG
+DIR_SRC = DIR_PROJECT.parent.resolve()
+
+DIR_REPO = DIR_SRC.parent.resolve()
+
+SECRET_KEY = dyn.SECRET_KEY
 
 ALLOWED_HOSTS = [
-    "Localhost",
+    "localhost",
     "127.0.0.1",
-    _ds.HOST,
+    dyn.HOST,
 ]
-
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -24,10 +33,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # ---------------------------
+    "applications.hello.apps.HelloConfig",
+    "applications.landing.apps.LandingConfig",
+    "applications.blog.apps.BlogConfig",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -41,7 +55,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [DIR_PROJECT / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -56,14 +70,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "project.wsgi.application"
 
+DATABASE_URL = os.getenv("DATABASE_URL", dyn.DATABASE_URL)
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
+DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -80,7 +89,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -91,5 +99,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATIC_URL = "/s/"
 
-STATIC_URL = "/static/"
+STATIC_ROOT = DIR_REPO / ".static"
+
+STATICFILES_DIRS = [
+    DIR_PROJECT / "static",
+]
+
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

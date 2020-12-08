@@ -14,12 +14,16 @@ pytest-mock = "*"
 pytest-selenium = "*"
 colorama = "*"
 delorean = "*"
+dj-database-url = "*"
 
 [packages]
 dynaconf = { extras = ["yaml"], version = "*" }
 gunicorn = "*"
 psycopg2-binary = "*"
 django = "*"
+whitenoise = "*"
+sentry-sdk = "*"
+ordering = "*"
 
 [requires]
 python_version = "3.8"
