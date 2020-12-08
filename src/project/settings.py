@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     # ---------------------------
     "applications.hello.apps.HelloConfig",
     "applications.landing.apps.LandingConfig",
+    "applications.blog.apps.BlogConfig",
 ]
 
 MIDDLEWARE = [
