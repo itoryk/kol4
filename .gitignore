@@ -5,16 +5,14 @@
 .DS_Store
 .idea/
 .pytest_cache/
-config/.secrets.yml
+.secrets.*
 .static/
 .tests_artifacts/
 .venv
 __pycache__/
 db.sqlite3
 db/*.json
+geckodriver.log
 tests/**/*.html
 tests/**/*.png
 venv/
-
-# Ignore dynaconf secret files
-.secrets.*
