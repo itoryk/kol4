@@ -57,6 +57,29 @@ header .flat {
   grid-template-rows: 100%;
 }
 
+.flat .user {
+  font-size: calc(var(--font-size) * 0.4);
+  grid-column: 1/2;
+  grid-row: 1/2;
+  margin: 0;
+  padding: 0;
+}
+
+.flat .empty {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.flat .logo {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+
+.flat .title {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
 header nav {
   display: grid;
   font-family: "Fira Code", monospace;
