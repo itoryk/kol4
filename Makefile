@@ -33,6 +33,11 @@ sh:
 	$(call log, starting Python shell)
 	$(PYTHON) src/manage.py shell
 
+.PHONY: su
+su:
+	$(call log, creating a superuser)
+	$(PYTHON) src/manage.py createsuperuser
+
 
 .PHONY: venv
 venv:
@@ -76,7 +81,7 @@ resetdb: dropdb createdb migrations migrate
 .PHONY: dropdb
 dropdb:
 	$(call log, dropping database)
-	psql  --echo-all  --username=$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_user.py)  --no-password --host=localhost --dbname=postgres --command="DROP DATABASE IF EXISTS \"$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_name.py)\";"
+	psql  --echo-all  --username=$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_user.py)  --no-password  --host=localhost --dbname=postgres --command="DROP DATABASE IF EXISTS \"$(shell $(PYTHON) $(DIR_SCRIPTS)/get_db_name.py)\";"
 
 
 .PHONY: createdb

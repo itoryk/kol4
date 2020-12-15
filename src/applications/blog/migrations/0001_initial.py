@@ -1,3 +1,5 @@
+import django.db.models.deletion
+from django.conf import settings
 from django.db import migrations
 from django.db import models
 
@@ -8,7 +10,9 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = []
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
     operations = [
         migrations.CreateModel(
@@ -23,13 +27,24 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("title", models.TextField(blank=True, null=True, unique=True)),
                 ("content", models.TextField(blank=True, null=True)),
+                ("nr_likes", models.IntegerField(default=0)),
+                ("nr_views", models.IntegerField(default=0)),
                 (
                     "created_at",
                     models.DateTimeField(default=applications.blog.models._now),
                 ),
-                ("nr_likes", models.IntegerField(default=0)),
+                ("edited", models.BooleanField(default=False)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
+            options={
+                "ordering": ["-created_at"],
+            },
         ),
     ]

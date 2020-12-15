@@ -19,6 +19,7 @@ dj-database-url = "*"
 [packages]
 dynaconf = { extras = ["yaml"], version = "*" }
 gunicorn = "*"
+pydantic = "*"
 psycopg2-binary = "*"
 django = "*"
 whitenoise = "*"
